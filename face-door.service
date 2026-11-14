@@ -1,0 +1,20 @@
+# /etc/systemd/system/face-door.service
+# Đổi 3 đường dẫn /home/hvt/code/face_ID cho đúng thư mục chứa recognition_faceID.py và venv của bạn.
+[Unit]
+Description=Face recognition door (recognition_faceID.py)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hvt
+WorkingDirectory=/home/hvt/code/face_ID
+EnvironmentFile=/etc/face-door.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/hvt/code/face_ID/venv/bin/python recognition_faceID.py
+Restart=always
+RestartSec=5
+SupplementaryGroups=video gpio spi i2c
+
+[Install]
+WantedBy=multi-user.target
